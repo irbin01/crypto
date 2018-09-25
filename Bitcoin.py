@@ -1,6 +1,6 @@
 gensis_block = {'previous_hash': '',
-                  'index': 0,
-                  'transaction': []}
+                'index': 0,
+                'transaction': []}
 blockchain = [gensis_block]
 open_transcation = []
 owner = "Nuva"
@@ -34,9 +34,9 @@ def mine_block():
         value = last_block[key]
         hashed_block += str(value)
     print(hashed_block)
-    block = {'previous_hash': 'xyz',
-                  'index': len(blockchain),
-                  'transaction': open_transcation}
+    block = {'previous_hash': hashed_block,
+             'index': len(blockchain),
+             'transaction': open_transcation}
     blockchain.append(block)
 
 
