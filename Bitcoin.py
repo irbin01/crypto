@@ -4,11 +4,15 @@ gensis_block = {'previous_hash': '',
 blockchain = [gensis_block]
 open_transcation = []
 owner = "Nuva"
-participants = {owner} #or participants = {'Nuva'}
+participants = {"Nuva"} #or participants = {'Nuva'}
 
 
 def hash_block(block):
     return '-'.join([str(block[key]) for key in block])
+
+def get_balance(participants):
+    tx_sender = [[tx['amount'] for tx in  block["transaction"] if tx['sender']== participants] for block in blockchain]
+    return tx_sender
 
 
 def get_last_blockchain_value():
@@ -107,6 +111,7 @@ while waiting_for_input:
         print_bloackchain_elements()
         print("invalid blockchain")
         break
+    print(get_balance("Nuva"))
 else:
     print("User left")
 
