@@ -12,7 +12,17 @@ def hash_block(block):
 
 def get_balance(participants):
     tx_sender = [[tx['amount'] for tx in  block["transaction"] if tx['sender']== participants] for block in blockchain]
-    return tx_sender
+    amount_sent = 0
+    for tx in tx_sender:
+        if len(tx)>0:
+            amount_sent += tx[0]
+
+    tx_recipient = [[tx['amount'] for tx in block['transaction'] if tx['recipient'] == participants] for block in blockchain]
+    amount_received = 0
+    for tx in tx_recipient:
+        if len(tx)>0:
+            amount_received += tx[0]
+    return amount_received - amount_sent
 
 
 def get_last_blockchain_value():
@@ -113,7 +123,7 @@ while waiting_for_input:
         print_bloackchain_elements()
         print("invalid blockchain")
         break
-    print(get_balance("Nuva"))
+    print("balance for nuva is", get_balance("Nuva"))
 else:
     print("User left")
 
