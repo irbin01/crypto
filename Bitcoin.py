@@ -4,6 +4,7 @@ gensis_block = {'previous_hash': '',
 blockchain = [gensis_block]
 open_transcation = []
 owner = "Nuva"
+participants = {owner} #or participants = {'Nuva'}
 
 
 def hash_block(block):
@@ -29,6 +30,8 @@ def add_transaction(recipient, sender=owner, amount=1.0):
     """
     transaction = {'sender': sender, 'recipient': recipient, 'amount': amount}
     open_transcation.append(transaction)
+    participants.add(sender)
+    participants.add(recipient)
 
 
 def mine_block():
@@ -76,6 +79,8 @@ while waiting_for_input:
     print("1: Add new value")
     print("2: Mine block")
     print("3: Output The blockchain blocks")
+    print('4: print participants')
+    print('h: to hack')
     print('q : Quit')
     user_input = get_user_choice()
     if user_input == '1':
@@ -87,6 +92,8 @@ while waiting_for_input:
         mine_block()
     elif user_input == '3':
         print_bloackchain_elements()
+    elif user_input == '4':
+        print(participants)
     elif user_input == 'h':
         blockchain[0] = {'previous_hash': '',
                          'index': 0,
