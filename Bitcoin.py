@@ -6,6 +6,10 @@ open_transcation = []
 owner = "Nuva"
 
 
+def hash_block(block):
+    return '-'.join([str(block[key]) for key in block])
+
+
 def get_last_blockchain_value():
     """ return last value of current bloackchain"""
 
@@ -29,7 +33,7 @@ def add_transaction(recipient, sender=owner, amount=1.0):
 
 def mine_block():
     last_block = blockchain[-1]
-    hashed_block = '-'.join([str(last_block[key]) for key in last_block])
+    hashed_block = hash_block(last_block)
     print(hashed_block)
     block = {'previous_hash': hashed_block,
              'index': len(blockchain),
@@ -57,18 +61,12 @@ def print_bloackchain_elements():
 
 
 def verify_chain():
-    block_index = 0
-    is_valid = True
-    for block_index in range(len(blockchain)):
-        if block_index == 0:
+    for (index, block) in enumerate(blockchain):
+        if index == 0:
             continue
-        elif blockchain[block_index][0] == blockchain[block_index - 1]:
-            is_valid = True
-        else:
-            is_valid = False
-            break
-        block_index += 1
-    return is_valid
+        if block['previous_hash'] != hash_block(blockchain[index - 1]):
+            return False
+    return True
 
 
 waiting_for_input = True
@@ -90,16 +88,18 @@ while waiting_for_input:
     elif user_input == '3':
         print_bloackchain_elements()
     elif user_input == 'h':
-        if len(blockchain) >= 1:
-            blockchain[0] = [2]
+        blockchain[0] = {'previous_hash': '',
+                         'index': 0,
+                         'transaction': [{'sender':'ab', 'recipient': 'bc', 'amount': 34}]}
     elif user_input == 'q':
         print_bloackchain_elements()
         waiting_for_input = False
     else:
         print("please enter valid choice")
-    # if not verify_chain():
-    #     print("invalid blockchain")
-    #     break
+    if not verify_chain():
+        print_bloackchain_elements()
+        print("invalid blockchain")
+        break
 else:
     print("User left")
 
